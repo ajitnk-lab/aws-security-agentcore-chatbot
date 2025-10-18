@@ -14,25 +14,25 @@
 - [ ] Set up Cognito user pool for authentication
 - [ ] Create base monitoring and logging
 
-## 🏗️ Phase 2: AgentCore Infrastructure (Days 3-5)
+## 🏗️ Phase 2: AgentCore Infrastructure (Days 3-5) ✅ COMPLETED
 
-### Task 2.1: Memory Resource Setup
-- [ ] Deploy AgentCore Memory with semantic strategies
-- [ ] Configure short-term and long-term memory
-- [ ] Test memory operations and retrieval
-- [ ] Set up memory monitoring
+### Task 2.1: Memory Resource Setup ✅
+- [x] Deploy AgentCore Memory with semantic strategies
+- [x] Configure short-term and long-term memory
+- [x] Test memory operations and retrieval
+- [x] Set up memory monitoring
 
-### Task 2.2: Gateway Configuration
-- [ ] Create AgentCore Gateway with OAuth2
-- [ ] Configure MCP protocol support
-- [ ] Set up authentication and authorization
-- [ ] Test gateway connectivity
+### Task 2.2: Runtime Deployment ✅
+- [x] Package MCP server for AgentCore Runtime
+- [x] Deploy security tools to serverless runtime
+- [x] Configure auto-scaling and monitoring
+- [x] Validate tool functionality
 
-### Task 2.3: Runtime Deployment
-- [ ] Package MCP server for AgentCore Runtime
-- [ ] Deploy security tools to serverless runtime
-- [ ] Configure auto-scaling and monitoring
-- [ ] Validate tool functionality
+### Task 2.3: Gateway Configuration ✅
+- [x] Create AgentCore Gateway with OAuth2
+- [x] Configure MCP protocol support
+- [x] Set up authentication and authorization
+- [x] Test gateway connectivity
 
 ## 🤖 Phase 3: Agent Integration (Days 6-8)
 
@@ -193,6 +193,26 @@
 - [ ] Support processes established
 - [ ] Documentation complete
 - [ ] Team trained and ready
+
+## 🚨 CRITICAL LESSONS LEARNED
+
+### ⚠️ Architecture Deviation Mistake (Phase 4)
+**MISTAKE**: Initially tried Lambda shortcuts and incorrect mcpServer configuration
+**ERROR**: "mcpServer target type requires 'endpoint' parameter, not 'runtimeArn'"
+**ROOT CAUSE**: Deviated from original architecture, didn't consult official documentation
+
+### ✅ Correct Solution Process
+1. **Always refer to official AgentCore samples and documentation**
+2. **Never deviate from original architecture for shortcuts**
+3. **Have patience - complex integrations take time to understand**
+4. **Runtime ARN → Endpoint URL conversion**: `https://{runtime-id}.runtime.bedrock-agentcore.{region}.amazonaws.com`
+5. **Use mcpServer target type with endpoint parameter (not runtimeArn)**
+
+### 🎯 Architecture Integrity Rules
+- **Gateway → AgentCore Runtime → MCP Server** (NO Lambda shortcuts)
+- **Intelligent tool discovery** requires proper MCP protocol
+- **OAuth configuration** needs IAM permissions fix after target creation
+- **Endpoint URL format** follows AWS service patterns
 
 ## 🚨 Risk Mitigation
 
