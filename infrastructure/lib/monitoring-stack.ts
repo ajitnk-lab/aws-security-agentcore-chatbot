@@ -5,9 +5,9 @@ import { Construct } from 'constructs';
 export interface MonitoringStackProps extends cdk.StackProps {
   environment: string;
   agentCoreResources: {
-    memory: any;
-    gateway: any;
-    runtime: any;
+    memoryId: string;
+    gatewayUrl: string;
+    runtimeArn: string;
   };
   enableDetailedMonitoring?: boolean;
 }
@@ -29,14 +29,19 @@ export class MonitoringStack extends cdk.Stack {
         markdown: `# AWS Security AgentCore Chatbot - ${props.environment.toUpperCase()}
         
 ## System Overview
-- Memory: ${props.agentCoreResources.memory.memoryId}
-- Gateway: ${props.agentCoreResources.gateway.gatewayId}  
-- Runtime: ${props.agentCoreResources.runtime.runtimeId}
+- Memory: ${props.agentCoreResources.memoryId}
+- Gateway: ${props.agentCoreResources.gatewayUrl}  
+- Runtime: ${props.agentCoreResources.runtimeArn}
 
 ## Status
-Dashboard initialized - metrics will be added as resources are deployed.`,
+Dashboard initialized - metrics will be added as resources are deployed.
+
+## Architecture
+\`\`\`
+Chat UI ↔ Bedrock Agent ↔ AgentCore Gateway ↔ AgentCore Runtime ↔ MCP Server ↔ AWS Security Services
+\`\`\``,
         width: 24,
-        height: 6,
+        height: 8,
       })
     );
 

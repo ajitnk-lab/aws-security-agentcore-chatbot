@@ -14,47 +14,84 @@ export interface AgentCoreStackProps extends cdk.StackProps {
 }
 
 export class AgentCoreStack extends cdk.Stack {
-  public readonly memory: any; // Will be replaced with actual AgentCore constructs
-  public readonly gateway: any;
-  public readonly runtime: any;
+  public readonly memoryId: string;
+  public readonly gatewayUrl: string;
+  public readonly runtimeArn: string;
 
   constructor(scope: Construct, id: string, props: AgentCoreStackProps) {
     super(scope, id, props);
 
-    // Placeholder for AgentCore Memory resource
-    // This will be implemented with actual AgentCore constructs
-    this.memory = {
-      memoryId: `security-chatbot-memory-${props.environment}`,
-      retentionDays: props.memoryRetentionDays || 7,
+    // NOTE: AgentCore resources are deployed via CLI, not CDK
+    // This stack documents the architecture and provides configuration
+
+    // AgentCore Memory - deployed via: agentcore memory create
+    this.memoryId = `mem-${props.environment}-security-chatbot`;
+
+    // AgentCore Runtime - deployed via: agentcore launch
+    this.runtimeArn = `arn:aws:bedrock-agentcore:${this.region}:${this.account}:runtime/agentcore_mcp_server-${props.environment}`;
+
+    // AgentCore Gateway - deployed via: agentcore gateway create-mcp-gateway
+    this.gatewayUrl = `https://security-chatbot-gateway-${props.environment}.gateway.bedrock-agentcore.${this.region}.amazonaws.com/mcp`;
+
+    // Configuration for deployment scripts
+    const deploymentConfig = {
+      memory: {
+        name: `SecurityChatbot_Memory_${props.environment}`,
+        strategies: [
+          {
+            userPreferenceMemoryStrategy: {
+              name: 'user_preferences',
+              namespaces: ['/user/preferences']
+            }
+          },
+          {
+            semanticMemoryStrategy: {
+              name: 'security_context',
+              namespaces: ['/security/context', '/security/findings']
+            }
+          }
+        ],
+        eventExpiryDays: props.memoryRetentionDays || 7
+      },
+      runtime: {
+        name: `security-mcp-server-${props.environment}`,
+        entrypoint: 'agent.py',
+        requirements: 'requirements.txt'
+      },
+      gateway: {
+        name: `security-chatbot-gateway-${props.environment}`,
+        authorizerType: 'COGNITO_USER_POOLS',
+        userPoolId: props.cognitoUserPool.userPoolId,
+        enableSemanticSearch: true
+      }
     };
 
-    // Placeholder for AgentCore Gateway resource
-    this.gateway = {
-      gatewayId: `security-chatbot-gateway-${props.environment}`,
-      userPool: props.cognitoUserPool,
-      role: props.gatewayRole,
-    };
+    // Store configuration for deployment scripts
+    new cdk.CfnOutput(this, 'DeploymentConfig', {
+      value: JSON.stringify(deploymentConfig),
+      description: 'Configuration for AgentCore CLI deployment'
+    });
 
-    // Placeholder for AgentCore Runtime resource
-    this.runtime = {
-      runtimeId: `security-chatbot-runtime-${props.environment}`,
-      role: props.runtimeRole,
-    };
-
-    // Output important resource identifiers
+    // Output resource identifiers
     new cdk.CfnOutput(this, 'MemoryId', {
-      value: this.memory.memoryId,
-      description: 'AgentCore Memory Resource ID',
+      value: this.memoryId,
+      description: 'AgentCore Memory Resource ID'
     });
 
-    new cdk.CfnOutput(this, 'GatewayId', {
-      value: this.gateway.gatewayId,
-      description: 'AgentCore Gateway Resource ID',
+    new cdk.CfnOutput(this, 'GatewayUrl', {
+      value: this.gatewayUrl,
+      description: 'AgentCore Gateway MCP URL'
     });
 
-    new cdk.CfnOutput(this, 'RuntimeId', {
-      value: this.runtime.runtimeId,
-      description: 'AgentCore Runtime Resource ID',
+    new cdk.CfnOutput(this, 'RuntimeArn', {
+      value: this.runtimeArn,
+      description: 'AgentCore Runtime ARN'
+    });
+
+    // Deployment instructions
+    new cdk.CfnOutput(this, 'DeploymentInstructions', {
+      value: 'Run scripts/deploy_agentcore.sh after CDK deployment',
+      description: 'Next steps for AgentCore deployment'
     });
   }
 }

@@ -1,236 +1,143 @@
-# 🚀 Deployment Guide - Repeatable IaC
+# AWS Security AgentCore Chatbot - Deployment Guide
 
-## 🌍 Region & Account Strategy
+## 🎯 Complete Deployment Process
 
-**Fixed Region**: `us-east-1` (for consistency and AgentCore availability)
-**Multi-Account Ready**: Deploy to any AWS account with single command
+### Prerequisites
+- AWS CLI configured with appropriate permissions
+- Node.js 18+ and Python 3.10+
+- AgentCore CLI installed: `pip install bedrock-agentcore-starter-toolkit`
 
-## 📋 Prerequisites
-
-### AWS Account Setup
+### Step 1: CDK Infrastructure Deployment
 ```bash
-# Configure AWS credentials for target account
-aws configure --profile target-account
-export AWS_PROFILE=target-account
-export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+# Clone repository
+git clone https://github.com/ajitnk-lab/aws-security-agentcore-chatbot.git
+cd aws-security-agentcore-chatbot
 
-# Verify account and region
-aws sts get-caller-identity
-aws configure get region  # Should be us-east-1
+# Install dependencies
+npm install
+pip install -r requirements.txt
+
+# Deploy CDK stacks (IAM roles, Cognito, monitoring)
+cdk deploy --all
 ```
 
-### CDK Bootstrap (One-time per account)
+### Step 2: AgentCore Resources Deployment
 ```bash
-# Bootstrap CDK in target account
-cdk bootstrap aws://$AWS_ACCOUNT_ID/us-east-1
-
-# Verify bootstrap
-aws cloudformation describe-stacks --stack-name CDKToolkit --region us-east-1
+# Deploy AgentCore Memory, Runtime, and Gateway
+./scripts/deploy_agentcore.sh development
 ```
 
-## 🏗️ Deployment Commands
+This script will:
+1. **Create AgentCore Memory** with semantic strategies
+2. **Deploy AgentCore Runtime** with MCP server hosting 7 security tools
+3. **Create AgentCore Gateway** with OAuth2 authentication
+4. **Test the complete integration** to verify connectivity
 
-### Quick Deploy to Any Account
+### Step 3: Verify Deployment
 ```bash
-# Set target account
-export AWS_ACCOUNT_ID=123456789012  # Your target account ID
+# Test Gateway-Runtime connection
+python3 scripts/test_gateway_runtime_connection.py
 
-# Deploy to development environment
-npm run deploy:dev
-
-# Deploy to staging environment  
-npm run deploy:staging
-
-# Deploy to production environment
-npm run deploy:prod
-
-# Deploy with specific account context
-npm run deploy:account
+# Expected output: 7 security tools accessible via MCP protocol
 ```
 
-### Environment-Specific Deployments
+## 🏗️ Architecture Deployed
+
+```
+Chat UI ↔ Bedrock Agent ↔ AgentCore Gateway ↔ AgentCore Runtime ↔ MCP Server ↔ AWS Security Services
+```
+
+### Resources Created:
+- **AgentCore Memory**: Semantic memory with user preferences and security context
+- **AgentCore Runtime**: Serverless runtime hosting MCP server with 7 security tools
+- **AgentCore Gateway**: OAuth2-secured gateway exposing MCP protocol
+- **IAM Roles**: Least-privilege roles for all components
+- **Cognito User Pool**: Authentication for Gateway access
+- **CloudWatch**: Monitoring and logging for all components
+
+## 🔧 Configuration Files Generated
+
+After deployment, these files contain your environment-specific configuration:
+
+- `memory_config.json`: Memory resource ID and configuration
+- `gateway_config.json`: Gateway URL, OAuth credentials, and access tokens
+- `.bedrock_agentcore.yaml`: Runtime configuration (auto-generated)
+
+## 🧪 Testing Your Deployment
+
+### Test 1: Memory Operations
 ```bash
-# Development (7-day retention, debug logging)
-npm run deploy:dev
-
-# Staging (14-day retention, info logging, no auto-destroy)
-npm run deploy:staging
-
-# Production (30-day retention, info logging, no auto-destroy)
-npm run deploy:prod
+python3 scripts/test_memory.py
 ```
 
-## 🗑️ Clean Removal
-
-### Complete Stack Removal
+### Test 2: Gateway Authentication
 ```bash
-# Remove development environment
-npm run destroy:dev
-
-# Remove staging environment
-npm run destroy:staging
-
-# Remove production environment (careful!)
-npm run destroy:prod
-
-# Remove all stacks (nuclear option)
-npm run destroy
+python3 scripts/test_gateway_runtime_connection.py
 ```
 
-### Verify Removal
+### Test 3: Security Tools
+The Gateway should expose these 7 tools:
+1. `CheckSecurityServices` - AWS security services status
+2. `CheckStorageEncryption` - Storage encryption validation
+3. `CheckNetworkSecurity` - Network security analysis
+4. `GetSecurityFindings` - Security findings retrieval
+5. `ListServicesInRegion` - Service discovery
+6. `GetStoredSecurityContext` - Security context storage
+7. `x_amz_bedrock_agentcore_search` - Tool discovery
+
+## 🌍 Multi-Account/Environment Deployment
+
+### Deploy to Different Environment
 ```bash
-# Check no stacks remain
-aws cloudformation list-stacks --region us-east-1 --query 'StackSummaries[?contains(StackName, `SecurityChatbot`) && StackStatus != `DELETE_COMPLETE`]'
+# Deploy to staging
+cdk deploy --all -c environment=staging
+./scripts/deploy_agentcore.sh staging
 
-# Check no AgentCore resources remain
-agentcore status
+# Deploy to production  
+cdk deploy --all -c environment=production
+./scripts/deploy_agentcore.sh production
 ```
 
-## 📊 Stack Structure
+### Cross-Account Deployment
+1. Configure AWS CLI for target account
+2. Update `cdk.json` with target account ID
+3. Run deployment commands as above
 
-### Deployed Stacks (per environment)
-```
-SecurityChatbot-{env}-Security     # IAM roles, Cognito, security
-SecurityChatbot-{env}-AgentCore    # Memory, Gateway, Runtime  
-SecurityChatbot-{env}-Monitoring   # CloudWatch, alarms, dashboards
-```
+## 🔒 Security Considerations
 
-### Resource Naming Convention
-```
-security-chatbot-{env}-{resource-type}-{unique-id}
+- All resources use least-privilege IAM roles
+- Gateway uses OAuth2 with Cognito for authentication
+- All data encrypted at rest and in transit
+- Audit logging enabled for all operations
+- Network security groups restrict access
 
-Examples:
-- security-chatbot-dev-memory-abc123
-- security-chatbot-prod-gateway-def456
-- security-chatbot-staging-runtime-ghi789
-```
+## 💰 Cost Optimization
 
-## 🔄 Cross-Account Migration
-
-### Export from Source Account
-```bash
-# Export configuration (if needed)
-aws ssm get-parameters-by-path --path "/security-chatbot/" --region us-east-1
-
-# Export any custom configurations
-cdk synth > infrastructure-template.yaml
-```
-
-### Import to Target Account
-```bash
-# Switch to target account
-export AWS_PROFILE=target-account
-export AWS_ACCOUNT_ID=987654321098
-
-# Bootstrap if needed
-cdk bootstrap aws://$AWS_ACCOUNT_ID/us-east-1
-
-# Deploy to target account
-npm run deploy:prod
-```
-
-## 🏷️ Resource Tagging
-
-All resources automatically tagged with:
-```yaml
-Project: aws-security-agentcore-chatbot
-Environment: development|staging|production
-Region: us-east-1
-Owner: security-team
-CostCenter: security-operations
-ManagedBy: CDK
-Repository: aws-security-agentcore-chatbot
-```
-
-## 🔍 Verification Commands
-
-### Post-Deployment Verification
-```bash
-# Verify stacks deployed
-aws cloudformation list-stacks --region us-east-1 --query 'StackSummaries[?contains(StackName, `SecurityChatbot`)]'
-
-# Verify AgentCore resources
-agentcore status
-
-# Test MCP server
-cd src/mcp-server && python3 -m pytest tests/
-
-# Test end-to-end flow
-agentcore invoke '{"prompt": "What is my security status?"}'
-```
-
-### Health Checks
-```bash
-# Check CloudWatch dashboards
-aws cloudwatch list-dashboards --region us-east-1
-
-# Check alarms status
-aws cloudwatch describe-alarms --region us-east-1 --alarm-names SecurityChatbot*
-
-# Check costs
-aws ce get-cost-and-usage --time-period Start=2025-01-01,End=2025-01-31 --granularity MONTHLY --metrics BlendedCost
-```
+- AgentCore Runtime uses serverless pricing (pay-per-use)
+- Memory retention configurable (7-30 days)
+- CloudWatch logs with retention policies
+- Auto-scaling based on demand
 
 ## 🚨 Troubleshooting
 
-### Common Issues
-```bash
-# CDK bootstrap issues
-cdk bootstrap --force aws://$AWS_ACCOUNT_ID/us-east-1
+### Common Issues:
 
-# Permission issues
-aws iam get-user  # Verify user permissions
-aws sts assume-role --role-arn arn:aws:iam::$AWS_ACCOUNT_ID:role/CDKExecRole
+1. **Gateway target fails with OAuth error**
+   ```bash
+   python3 scripts/fix_oauth_configuration.py
+   ```
 
-# AgentCore service limits
-aws service-quotas get-service-quota --service-code bedrock --quota-code L-12345
+2. **Runtime deployment fails**
+   - Check AWS credentials and permissions
+   - Verify AgentCore CLI installation
+   - Check region configuration (must be us-east-1)
 
-# Stack dependency issues
-cdk deploy SecurityChatbot-dev-Security --exclusively
-cdk deploy SecurityChatbot-dev-AgentCore --exclusively
-cdk deploy SecurityChatbot-dev-Monitoring --exclusively
-```
+3. **Memory operations fail**
+   - Verify Memory resource was created successfully
+   - Check IAM permissions for Memory access
 
-### Rollback Procedures
-```bash
-# Rollback to previous version
-cdk deploy --rollback
+## 📞 Support
 
-# Emergency stack removal
-aws cloudformation delete-stack --stack-name SecurityChatbot-dev-AgentCore --region us-east-1
-
-# Force resource cleanup
-aws cloudformation continue-update-rollback --stack-name SecurityChatbot-dev-AgentCore --region us-east-1
-```
-
-## 📈 Cost Optimization
-
-### Environment Sizing
-- **Development**: Minimal resources, auto-destroy after 7 days
-- **Staging**: Production-like but smaller scale
-- **Production**: Full scale with high availability
-
-### Cost Monitoring
-```bash
-# Set up cost alerts
-aws budgets create-budget --account-id $AWS_ACCOUNT_ID --budget file://budget.json
-
-# Monitor daily costs
-aws ce get-cost-and-usage --time-period Start=$(date -d '7 days ago' +%Y-%m-%d),End=$(date +%Y-%m-%d) --granularity DAILY --metrics BlendedCost
-```
-
-## 🎯 Success Criteria
-
-✅ **Deployment Success**:
-- All 3 stacks deploy without errors
-- AgentCore resources created and accessible
-- MCP server responds to test queries
-- Monitoring dashboards populated
-
-✅ **Repeatability Success**:
-- Same deployment works in different accounts
-- Clean removal leaves no orphaned resources
-- Re-deployment after removal works identically
-- All configurations parameterized properly
-
-**Remember: Infrastructure as Code means predictable, repeatable, and reliable deployments every time!**
+- **Issues**: [GitHub Issues](https://github.com/ajitnk-lab/aws-security-agentcore-chatbot/issues)
+- **Documentation**: Project README and architecture docs
+- **Logs**: Check CloudWatch logs for detailed error information

@@ -65,9 +65,9 @@ const monitoringStack = new MonitoringStack(app, `${stackPrefix}-Monitoring`, {
   environment,
   stackName: `${stackPrefix}-Monitoring`,
   agentCoreResources: {
-    memory: agentCoreStack.memory,
-    gateway: agentCoreStack.gateway,
-    runtime: agentCoreStack.runtime
+    memoryId: agentCoreStack.memoryId,
+    gatewayUrl: agentCoreStack.gatewayUrl,
+    runtimeArn: agentCoreStack.runtimeArn
   },
   ...envConfig
 });
