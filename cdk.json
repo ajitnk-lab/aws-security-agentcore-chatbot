@@ -57,6 +57,8 @@
     "@aws-cdk/aws-normlizedkeys:props": true,
     "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": true,
     "@aws-cdk/aws-opensearchservice:enforceHttps": true,
-    "@aws-cdk/aws-s3:enforceSSL": true
+    "@aws-cdk/aws-s3:enforceSSL": true,
+    "region": "us-east-1",
+    "environment": "development"
   }
 }
