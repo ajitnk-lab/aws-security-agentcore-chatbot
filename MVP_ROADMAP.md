@@ -72,4 +72,15 @@
 3. **If test fails**: Fix immediately before proceeding
 4. **If complexity grows**: Simplify, get basic version working first
 
-**Remember: Working MVP > Perfect Architecture**
+## 🏗️ ARCHITECTURE INTEGRITY - NON-NEGOTIABLE
+
+**NEVER DEVIATE FROM ORIGINAL DESIGN:**
+- ❌ **NO workarounds** that bypass proper flow
+- ❌ **NO mock data** or static returns
+- ❌ **NO fake responses** or shortcuts
+- ❌ **NO quick fixes** that compromise architecture
+- ✅ **ALWAYS implement** real Chat UI ↔ Agent ↔ Gateway ↔ MCP ↔ AWS flow
+- ✅ **FAIL PROPERLY** rather than fake success
+- ✅ **FIX REAL ISSUES** instead of masking them
+
+**Remember: Working MVP > Perfect Architecture BUT Real Architecture > Fake MVP**

@@ -12,6 +12,8 @@ NEXT: AWS credentials → CDK deploy → AgentCore Memory/Gateway → Agent inte
 - MVP first, then add features incrementally  
 - Update task.md + TODO list + GitHub continuously
 - Break tasks into 15-30min chunks
+- NEVER deviate from arch: Chat UI ↔ Agent ↔ Gateway ↔ MCP ↔ AWS
+- NO workarounds, mock data, or fake returns - REAL FLOW ONLY!
 
 RESUME COMMANDS:
 1. cd /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot
