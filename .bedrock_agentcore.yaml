@@ -1,0 +1,41 @@
+default_agent: security_agent
+agents:
+  security_agent:
+    name: security_agent
+    entrypoint: agent.py
+    platform: linux/amd64
+    container_runtime: docker
+    source_path: null
+    aws:
+      execution_role: null
+      execution_role_auto_create: false
+      account: null
+      region: null
+      ecr_repository: null
+      ecr_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC
+        network_mode_config: null
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true
+    bedrock_agentcore:
+      agent_id: null
+      agent_arn: null
+      agent_session_id: null
+    codebuild:
+      project_name: null
+      execution_role: null
+      source_bucket: null
+    memory:
+      mode: STM_ONLY
+      memory_id: security_agent_mem-Eul1cWE0F3
+      memory_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:memory/security_agent_mem-Eul1cWE0F3
+      memory_name: security_agent_mem
+      event_expiry_days: 30
+      first_invoke_memory_check_done: false
+      was_created_by_toolkit: false
+    authorizer_configuration: null
+    request_header_configuration: null
+    oauth_configuration: null

@@ -1,0 +1,12 @@
+{
+  "SecurityChatbot-development-Security": {
+    "ExportsOutputRefSecurityChatbotUserPoolE20E651A5DC49B17": "us-east-1_Sl1bDbBKu"
+  },
+  "SecurityChatbot-development-AgentCore": {
+    "GatewayUrl": "https://security-chatbot-gateway-41f3cc60-fmqz5lmy6j.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
+    "RuntimeArn": "arn:aws:bedrock-agentcore:us-east-1:039920874011:runtime/agentcore_mcp_server-development",
+    "DeploymentInstructions": "Run scripts/deploy_agentcore.sh after CDK deployment",
+    "DeploymentConfig": "{\"memory\":{\"name\":\"SecurityChatbot_Memory_development\",\"strategies\":[{\"userPreferenceMemoryStrategy\":{\"name\":\"user_preferences\",\"namespaces\":[\"/user/preferences\"]}},{\"semanticMemoryStrategy\":{\"name\":\"security_context\",\"namespaces\":[\"/security/context\",\"/security/findings\"]}}],\"eventExpiryDays\":7},\"runtime\":{\"name\":\"security-mcp-server-development\",\"entrypoint\":\"agent.py\",\"requirements\":\"requirements.txt\"},\"gateway\":{\"name\":\"security-chatbot-gateway-development\",\"authorizerType\":\"COGNITO_USER_POOLS\",\"userPoolId\":\"us-east-1_Sl1bDbBKu\",\"enableSemanticSearch\":true}}",
+    "MemoryId": "mem-development-security-chatbot"
+  }
+}

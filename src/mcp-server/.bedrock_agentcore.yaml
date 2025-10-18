@@ -1,17 +1,17 @@
-default_agent: agentcore_mcp_server
+default_agent: security_mcp_server
 agents:
-  agentcore_mcp_server:
-    name: agentcore_mcp_server
-    entrypoint: /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot/src/mcp-server/agentcore_mcp_server.py
+  security_mcp_server:
+    name: security_mcp_server
+    entrypoint: /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot/src/mcp-server/agentcore_mcp_server/__main__.py
     platform: linux/arm64
     container_runtime: docker
-    source_path: /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot/src/mcp-server
+    source_path: /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot/src/mcp-server/agentcore_mcp_server
     aws:
-      execution_role: arn:aws:iam::039920874011:role/AmazonBedrockAgentCoreSDKRuntime-us-east-1-cd46aaa99e
+      execution_role: arn:aws:iam::039920874011:role/AmazonBedrockAgentCoreSDKRuntime-us-east-1-40ccc833ae
       execution_role_auto_create: false
       account: 039920874011
       region: us-east-1
-      ecr_repository: 039920874011.dkr.ecr.us-east-1.amazonaws.com/bedrock-agentcore-agentcore_mcp_server
+      ecr_repository: 039920874011.dkr.ecr.us-east-1.amazonaws.com/bedrock-agentcore-security_mcp_server
       ecr_auto_create: false
       network_configuration:
         network_mode: PUBLIC
@@ -21,21 +21,25 @@ agents:
       observability:
         enabled: true
     bedrock_agentcore:
-      agent_id: agentcore_mcp_server-CmiD0a32zF
-      agent_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:runtime/agentcore_mcp_server-CmiD0a32zF
-      agent_session_id: 5058cc7b-ff39-49fe-888d-2ae7e8f0652b
+      agent_id: security_mcp_server-uOHR4BGcNq
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:runtime/security_mcp_server-uOHR4BGcNq
+      agent_session_id: af605e5e-9263-4329-bf98-960cf9acaacd
     codebuild:
-      project_name: bedrock-agentcore-agentcore_mcp_server-builder
-      execution_role: arn:aws:iam::039920874011:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-cd46aaa99e
+      project_name: bedrock-agentcore-security_mcp_server-builder
+      execution_role: arn:aws:iam::039920874011:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-40ccc833ae
       source_bucket: bedrock-agentcore-codebuild-sources-039920874011-us-east-1
     memory:
       mode: STM_ONLY
-      memory_id: agentcore_mcp_server_mem-l7DFbv5MVK
-      memory_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:memory/agentcore_mcp_server_mem-l7DFbv5MVK
-      memory_name: agentcore_mcp_server_mem
+      memory_id: security_mcp_server_mem-D2n0ed5Whc
+      memory_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:memory/security_mcp_server_mem-D2n0ed5Whc
+      memory_name: security_mcp_server_mem
       event_expiry_days: 30
       first_invoke_memory_check_done: true
-      was_created_by_toolkit: true
-    authorizer_configuration: null
+      was_created_by_toolkit: false
+    authorizer_configuration:
+      customJWTAuthorizer:
+        discoveryUrl: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_S9V3kiozX/.well-known/openid-configuration
+        allowedClients:
+        - 31tulnklmj2kcslkmgcbme7n9v
     request_header_configuration: null
     oauth_configuration: null

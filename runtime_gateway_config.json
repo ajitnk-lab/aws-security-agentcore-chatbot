@@ -1,0 +1,9 @@
+{
+  "gateway_arn": "arn:aws:bedrock-agentcore:us-east-1:039920874011:gateway/security-runtime-gateway-dtga85g9fh",
+  "gateway_id": "security-runtime-gateway-dtga85g9fh",
+  "gateway_url": "https://security-runtime-gateway-dtga85g9fh.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
+  "role_arn": "arn:aws:iam::039920874011:role/AgentCoreGatewayExecutionRole",
+  "user_pool_id": "us-east-1_S9V3kiozX",
+  "client_id": "31tulnklmj2kcslkmgcbme7n9v",
+  "domain": "agentcore-ea2cd5e9.auth.us-east-1.amazoncognito.com"
+}

@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { AgentCoreStack } from '../lib/agentcore-stack';
 import { SecurityStack } from '../lib/security-stack';
 import { MonitoringStack } from '../lib/monitoring-stack';
+import { FrontendStack } from '../lib/frontend-stack';
 
 const app = new cdk.App();
 
@@ -57,6 +58,13 @@ const agentCoreStack = new AgentCoreStack(app, `${stackPrefix}-AgentCore`, {
   gatewayRole: securityStack.gatewayRole,
   runtimeRole: securityStack.runtimeRole,
   ...envConfig
+});
+
+// Frontend Stack - React app hosting
+const frontendStack = new FrontendStack(app, `${stackPrefix}-Frontend`, {
+  env: { account, region },
+  environment,
+  stackName: `${stackPrefix}-Frontend`
 });
 
 // Monitoring Stack - CloudWatch, alarms, dashboards

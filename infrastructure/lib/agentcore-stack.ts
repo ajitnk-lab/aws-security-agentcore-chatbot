@@ -30,8 +30,8 @@ export class AgentCoreStack extends cdk.Stack {
     // AgentCore Runtime - deployed via: agentcore launch
     this.runtimeArn = `arn:aws:bedrock-agentcore:${this.region}:${this.account}:runtime/agentcore_mcp_server-${props.environment}`;
 
-    // AgentCore Gateway - deployed via: agentcore gateway create-mcp-gateway
-    this.gatewayUrl = `https://security-chatbot-gateway-${props.environment}.gateway.bedrock-agentcore.${this.region}.amazonaws.com/mcp`;
+    // AgentCore Gateway - use new clean Gateway with only Runtime target
+    this.gatewayUrl = `https://security-chatbot-clean-a4165c1f-10wdftnwcc.gateway.bedrock-agentcore.${this.region}.amazonaws.com/mcp`;
 
     // Configuration for deployment scripts
     const deploymentConfig = {
