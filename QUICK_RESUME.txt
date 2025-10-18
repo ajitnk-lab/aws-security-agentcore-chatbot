@@ -14,6 +14,7 @@ NEXT: AWS credentials → CDK deploy → AgentCore Memory/Gateway → Agent inte
 - Break tasks into 15-30min chunks
 - NEVER deviate from arch: Chat UI ↔ Agent ↔ Gateway ↔ MCP ↔ AWS
 - NO workarounds, mock data, or fake returns - REAL FLOW ONLY!
+- AWS BEST PRACTICES ALWAYS - Never rush, code over docs
 
 RESUME COMMANDS:
 1. cd /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot

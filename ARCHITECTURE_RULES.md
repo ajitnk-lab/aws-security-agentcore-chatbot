@@ -88,6 +88,45 @@ memory.store_conversation(user_input, agent_response)
 
 **I commit to maintaining architecture integrity over speed, real functionality over fake demos, and authentic implementation over shortcuts.**
 
+## 🏆 AWS Best Practices - ALWAYS
+
+### Security & Compliance:
+- **Least Privilege IAM**: Minimal permissions for each component
+- **Encryption**: Data encrypted at rest and in transit
+- **VPC Security**: Proper security groups and NACLs
+- **Secrets Management**: Use AWS Secrets Manager, never hardcode
+- **Audit Logging**: CloudTrail for all API calls
+
+### Operational Excellence:
+- **Infrastructure as Code**: CDK for all resources
+- **Monitoring**: CloudWatch metrics and alarms
+- **Tagging**: Consistent resource tagging strategy
+- **Cost Optimization**: Right-sizing and cost monitoring
+- **Backup & Recovery**: Proper backup strategies
+
+### Development Standards:
+- **Code Over Documentation**: Trust working code, verify with tests
+- **Never Rush**: Quality over speed, even under pressure
+- **Test Everything**: Unit, integration, and end-to-end tests
+- **Version Control**: Meaningful commits and branching strategy
+- **Error Handling**: Graceful degradation and proper logging
+
+## 🔍 Code-First Approach
+
+### Always Verify Through Code:
+- **Read the actual implementation** - don't assume from docs
+- **Test the real behavior** - don't trust documentation claims
+- **Validate with working examples** - run code to confirm
+- **Check source code** when documentation is unclear
+- **Write tests** to document expected behavior
+
+### Never Rush Implementation:
+- **Take time to understand** the problem fully
+- **Research proper solutions** before coding
+- **Follow AWS Well-Architected** principles always
+- **Review code thoroughly** before deployment
+- **Test comprehensively** before marking complete
+
 ---
 
 **Remember: Better to have a partially working real system than a fully working fake one.**

@@ -90,6 +90,14 @@ I'm working on deploying an AWS Security MCP Server on Amazon Bedrock AgentCore 
 - **ALWAYS implement** the real Chat UI ↔ Agent ↔ Gateway ↔ MCP ↔ AWS flow
 - **FAIL PROPERLY** rather than fake success
 
+### 🏆 **AWS BEST PRACTICES - ALWAYS**
+- **Never rush** - Quality over speed, even under pressure
+- **Code over docs** - Trust working code, verify with tests
+- **AWS Well-Architected** - Security, reliability, performance
+- **Least privilege IAM** - Minimal permissions for each component
+- **Infrastructure as Code** - CDK for all resources
+- **Proper monitoring** - CloudWatch metrics and alarms
+
 ## 📁 Key Files
 
 - `docs/requirements.md` - Detailed project requirements
