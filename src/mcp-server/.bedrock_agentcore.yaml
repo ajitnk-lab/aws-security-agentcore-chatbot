@@ -23,7 +23,7 @@ agents:
     bedrock_agentcore:
       agent_id: agentcore_mcp_server-CmiD0a32zF
       agent_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:runtime/agentcore_mcp_server-CmiD0a32zF
-      agent_session_id: null
+      agent_session_id: 5058cc7b-ff39-49fe-888d-2ae7e8f0652b
     codebuild:
       project_name: bedrock-agentcore-agentcore_mcp_server-builder
       execution_role: arn:aws:iam::039920874011:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-cd46aaa99e
@@ -34,7 +34,7 @@ agents:
       memory_arn: arn:aws:bedrock-agentcore:us-east-1:039920874011:memory/agentcore_mcp_server_mem-l7DFbv5MVK
       memory_name: agentcore_mcp_server_mem
       event_expiry_days: 30
-      first_invoke_memory_check_done: false
+      first_invoke_memory_check_done: true
       was_created_by_toolkit: true
     authorizer_configuration: null
     request_header_configuration: null
