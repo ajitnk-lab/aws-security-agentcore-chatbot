@@ -7,6 +7,12 @@ GitHub: https://github.com/ajitnk-lab/aws-security-agentcore-chatbot
 COMPLETED: Project setup, docs, CDK structure, MCP server, AgentCore CLI installed
 NEXT: AWS credentials → CDK deploy → AgentCore Memory/Gateway → Agent integration
 
+⚡ METHODOLOGY: STARTUP APPROACH - FAIL FAST!
+- Code → Deploy → Test → Iterate rapidly
+- MVP first, then add features incrementally  
+- Update task.md + TODO list + GitHub continuously
+- Break tasks into 15-30min chunks
+
 RESUME COMMANDS:
 1. cd /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot
 2. todo_list load 1760766399107

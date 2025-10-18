@@ -56,6 +56,32 @@ I'm working on deploying an AWS Security MCP Server on Amazon Bedrock AgentCore 
 4. Use AgentCore CLI and CDK tools as needed
 5. Update TODO list as tasks are completed
 
+## ⚡ CRITICAL WORKING METHODOLOGY
+
+### 🏃‍♂️ **Startup Approach - FAIL FAST**
+- **Code → Deploy → Test → Iterate** rapidly
+- Don't over-engineer - get basic functionality working first
+- Test early, fail fast, learn quickly
+- Deploy frequently to catch issues early
+
+### 🎯 **MVP-First Strategy**
+1. **Build MVP with basic functionality FIRST**
+2. **Get end-to-end flow working** (even if simple)
+3. **Add features incrementally** one by one
+4. **Test each feature** before adding the next
+
+### 📝 **Continuous Documentation**
+- **Update task.md** after every major milestone
+- **Update TODO list** as tasks complete/change
+- **Commit to GitHub** frequently with meaningful messages
+- **Document learnings** and blockers immediately
+
+### 🔬 **Detailed Task Management**
+- **Break down tasks** into 15-30 minute chunks
+- **Create minute-level task items** for complex work
+- **Track progress** granularly to avoid losing work
+- **Update estimates** based on actual time taken
+
 ## 📁 Key Files
 
 - `docs/requirements.md` - Detailed project requirements
