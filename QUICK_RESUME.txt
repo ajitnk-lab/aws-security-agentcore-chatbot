@@ -1,0 +1,15 @@
+🔄 QUICK RESUME: AWS Security AgentCore Chatbot
+
+Project: /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot
+TODO ID: 1760766399107
+GitHub: https://github.com/ajitnk-lab/aws-security-agentcore-chatbot
+
+COMPLETED: Project setup, docs, CDK structure, MCP server, AgentCore CLI installed
+NEXT: AWS credentials → CDK deploy → AgentCore Memory/Gateway → Agent integration
+
+RESUME COMMANDS:
+1. cd /persistent/home/ubuntu/workspace/aws-security-agentcore-chatbot
+2. todo_list load 1760766399107
+3. Continue with next incomplete task
+
+STATUS: Ready for AgentCore infrastructure deployment 🚀
